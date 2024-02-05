@@ -1,4 +1,4 @@
-export const types = `graphql
+export const types = `#graphql
   type User {
     id: ID!
     email: String!

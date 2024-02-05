@@ -4,6 +4,7 @@ import cors from "cors";
 import express from "express";
 import bodyParser from "body-parser";
 import { User } from "./user"
+// import { GraphQLObjectType, GraphQLString } from "graphql";
 
 const app = express();
 app.use(cors());
@@ -25,7 +26,7 @@ export async function startApolloServer() {
     await server.start();
 
     app.use('/graphql', expressMiddleware(server));   
-
+    
     return app;
 }
 

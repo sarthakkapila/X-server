@@ -33,7 +33,7 @@ const queries = {
         })
 
         const user = await prismaClient.user.findUnique({
-            where: data.email
+            where : {email: data.email}
         });
 
         if(!user){
@@ -46,9 +46,23 @@ const queries = {
             })
         }
 
-        const usertoken = await JWTService.generateToken(user.id);
-        return 'ok';
+        const userInDb = await prismaClient.user.findUnique({
+            where : {email: data.email}
+        });
+
+        if(!userInDb) throw new Error('User not found');
+
+        const usertoken = await JWTService.generateToken(userInDb);
+        return usertoken;
     },
+    getCurrentUser: async(parent: any, args: any, ctx: any) => {
+        console.log(ctx);
+        const id = ctx.user.id;
+        if(!id) throw new Error('User not found');
+
+        const user = await prismaClient.user.findUnique({ where: {id: id}});
+        return user;
+    }
 };
 
 export const resolvers = { queries };

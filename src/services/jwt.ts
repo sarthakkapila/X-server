@@ -6,7 +6,7 @@ const JWT_SECRET = "S3Cr3T";
 
 class JWTService {
     public static async generateTokenforUser(userId: User) {
-        const payload = {
+        const payload: JWTUser = {
             id: userId?.id,
             email: userId.email
 

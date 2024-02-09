@@ -28,6 +28,7 @@ const queries = {
         const googleOauthURL = new URL("https://oauth2.googleapis.com/tokeninfo");
         googleOauthURL.searchParams.set('id_token', googleToken)
 
+
         const {data} = await axios.get(googleOauthURL.toString(), {
             responseType: 'json'
         })
@@ -52,7 +53,7 @@ const queries = {
 
         if(!userInDb) throw new Error('User not found');
 
-        const usertoken = await JWTService.generateToken(userInDb);
+        const usertoken = await JWTService.generateTokenforUser(userInDb);
         return usertoken;
     },
     getCurrentUser: async(parent: any, args: any, ctx: any) => {

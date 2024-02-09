@@ -4,7 +4,7 @@ import cors from "cors";
 import express from "express";
 import bodyParser from "body-parser";
 import { User } from "./user"
-import { graphQLContext } from "../interfaces";
+import { GraphQLContext } from "../interfaces";
 import JWTService from "../services/jwt";
 
 
@@ -12,8 +12,12 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
+app.get("/health", (req, res) =>
+res.status(200).json({ message: "Everything is good" })
+);
+
 export async function startApolloServer() {
-    const server = new ApolloServer<graphQLContext>({ 
+    const graphqlServer = new ApolloServer<GraphQLContext>({ 
         typeDefs:`
         ${User.types}
             type Query {
@@ -25,17 +29,22 @@ export async function startApolloServer() {
             },
         }
      });
-    await server.start();
+    await graphqlServer.start();
 
-    app.use('/graphql', expressMiddleware(server, {
-        context: async ({req, res}) => {
+    app.use(
+        "/graphql",
+        expressMiddleware(graphqlServer, {
+          context: async ({ req, res }) => {
             return {
-                user: req.headers.authorization ? JWTService.decodeToken(req.headers.authorization.split('Bearer')[1]) : undefined,
-
+              user: req.headers.authorization
+                ? JWTService.decodeToken(
+                    req.headers.authorization.split("Bearer ")[1]
+                  )
+                : undefined,
             };
-        }
-        }));
-
+          },
+        })
+      );    
     return app;
 }
 

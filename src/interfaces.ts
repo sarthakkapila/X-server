@@ -3,6 +3,6 @@ export interface JWTUser {
     email: String;
 }
 
-export interface graphQLContext {
+export interface GraphQLContext {
     user?: JWTUser;
 }

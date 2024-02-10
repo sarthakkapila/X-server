@@ -1,5 +1,3 @@
-import { graphql } from "graphql";
-
 export const queries = `#graphql
     verifyGoogleToken(token: String!): String
     getCurrentUser: User
@@ -12,6 +10,7 @@ export const getCurrentUserQuery =`
             id
             email
             Firstname
+            LastName
             profileimageURL
     }
     }

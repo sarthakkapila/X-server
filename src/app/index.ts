@@ -20,7 +20,7 @@ export async function startApolloServer() {
     const graphqlServer = new ApolloServer<GraphQLContext>({ 
         typeDefs:`
         ${User.types}
-            type Query { 
+            type Query {
                 ${User.queries}
             }`,
         resolvers: {

@@ -8,8 +8,8 @@ class JWTService {
     public static async generateTokenforUser(userId: User) {
         const payload: JWTUser = {
             id: userId?.id,
-            email: userId.email
-
+            email: userId.email,
+            FirstName: userId.Firstname,
         };
         const token = JWT.sign(payload, JWT_SECRET)
         return token;

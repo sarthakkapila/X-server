@@ -44,7 +44,6 @@ const queries = {
                 data: {
                     email: data.email,
                     Firstname: data.given_name,
-                    Lastname: data.given_name,
                     profileimageURL: data.picture,
                 }
             })
@@ -59,13 +58,18 @@ const queries = {
         const usertoken = await JWTService.generateTokenforUser(userInDb);
         return usertoken;
     },
-    getCurrentUser: async(parent: any, args: any, ctx: any) => {
-        const id = ctx.user.id;
-        if(!id) throw new Error('User not found');
+    getCurrentUser: async(parent: any, args: any, ctx: GraphQLContext) => {
+        console.log(ctx);
+        const id = ctx.user?.id.toString();    
+        if(!id) return null;
 
         const user = await prismaClient.user.findUnique({ where: { id }});
         return user;
     },
+
+
+
+    
     // getUserById: async (
     //     parent: any,
     //     { id }: { id: string },

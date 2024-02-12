@@ -25,6 +25,7 @@ export async function startApolloServer() {
 
             type Query {
                 ${User.queries}
+                ${Tweet.queries}
             }
             
             type Mutation {
